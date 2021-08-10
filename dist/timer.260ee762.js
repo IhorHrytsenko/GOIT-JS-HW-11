@@ -118,7 +118,36 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"js/timer.js":[function(require,module,exports) {
+var timer = {
+  startDate: Date.now(),
+  endDate: new Date()
+};
+console.log(timer.endDate);
+/*
+ * Оставшиеся дни: делим значение UTC на 1000 * 60 * 60 * 24, количество
+ * миллисекунд в одном дне (миллисекунды * секунды * минуты * часы)
+ */
 
+var days = Math.floor(time / (1000 * 60 * 60 * 24));
+/*
+ * Оставшиеся часы: получаем остаток от предыдущего расчета с помощью оператора
+ * остатка % и делим его на количество миллисекунд в одном часе
+ * (1000 * 60 * 60 = миллисекунды * минуты * секунды)
+ */
+
+var hours = Math.floor(time % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
+/*
+ * Оставшиеся минуты: получаем оставшиеся минуты и делим их на количество
+ * миллисекунд в одной минуте (1000 * 60 = миллисекунды * секунды)
+ */
+
+var mins = Math.floor(time % (1000 * 60 * 60) / (1000 * 60));
+/*
+ * Оставшиеся секунды: получаем оставшиеся секунды и делим их на количество
+ * миллисекунд в одной секунде (1000)
+ */
+
+var secs = Math.floor(time % (1000 * 60) / 1000);
 },{}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -147,7 +176,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55771" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60814" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
