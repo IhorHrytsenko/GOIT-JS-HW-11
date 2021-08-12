@@ -63,9 +63,17 @@ const interval = setInterval(() => {
     refs.mins.textContent = timer.timeComponent(timer.deltaTime).mins;
     refs.secs.textContent = timer.timeComponent(timer.deltaTime).secs;
     }
-    if(timer.deltaTime === 0){console.log("Finish!");
+    if(timer.deltaTime === 0){
+    refs.days.textContent = "Finish!"; 
+    refs.hours.textContent = "Finish!";
+    refs.mins.textContent = "Finish!";
+    refs.secs.textContent = "Finish!";
     clearInterval(interval);
 }
     
 }, 1000);
 
+
+const ddd = new Date(2021, 07, 13, 15,00,00);
+
+console.log(ddd);
