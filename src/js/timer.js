@@ -1,34 +1,71 @@
-
+const refs = {
+    days: document.querySelector("span[data-value=days]"),
+    hours: document.querySelector("span[data-value=hours]"),
+    mins: document.querySelector("span[data-value=mins]"),
+    secs: document.querySelector("span[data-value=secs]"),
+}
 
 const timer = {
-    startDate : Date.now(),
-    endDate: new Date(),
+
+    startDate : new Date(),
+    endDate : new Date(),
+    deltaTime: this.endDate - this.startDate,
+    MINUS: 1000,
+
+    timeComponent(deltaTime) {
+    const days = Math.floor(this.deltaTime / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((this.deltaTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const mins = Math.floor((this.deltaTime % (1000 * 60 * 60)) / (1000 * 60));
+    const secs = Math.floor((this.deltaTime % (1000 * 60)) / 1000);
+
+    return {days, hours, mins, secs}
+    },
+
+    // указываем время для обратного отсчета d - дни, h - часы, m - минуты, s - секунды 
+    setTimerDay(d){
+        return this.endDate.setDate(this.startDate.getDate() + d);
+     },
+
+    setTimerHours(h){
+        return this.endDate.setHours(this.startDate.getHours() + h);
+    },
+
+    setTimerMinutes(m){
+        return this.endDate.setMinutes(this.startDate.getMinutes() + m);
+    },
+
+    setTimerSeconds(s){
+        return this.endDate.setSeconds(this.startDate.getSeconds() + s);
+    },
+
+    setDeltaTime(d = 2, h = 0, m = 0, s = 0){
+        this.setTimerDay(d);
+        this.setTimerHours(h);
+        this.setTimerMinutes(m);
+        this.setTimerSeconds(s);
+        return this.deltaTime = this.endDate.getTime() - this.startDate.getTime();
+    },
+
+    changeDeltaTime(){
+       return this.deltaTime -= this.MINUS;
+     },
 
 }
 
-console.log(timer.endDate);
+timer.setDeltaTime(0, 0, 0, 10);
 
-/*
- * Оставшиеся дни: делим значение UTC на 1000 * 60 * 60 * 24, количество
- * миллисекунд в одном дне (миллисекунды * секунды * минуты * часы)
- */
-const days = Math.floor(time / (1000 * 60 * 60 * 24));
 
-/*
- * Оставшиеся часы: получаем остаток от предыдущего расчета с помощью оператора
- * остатка % и делим его на количество миллисекунд в одном часе
- * (1000 * 60 * 60 = миллисекунды * минуты * секунды)
- */
-const hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+const interval = setInterval(() => {
+    if (timer.deltaTime !== 0){
+    timer.changeDeltaTime();
+    refs.days.textContent = timer.timeComponent(timer.deltaTime).days;
+    refs.hours.textContent = timer.timeComponent(timer.deltaTime).hours;
+    refs.mins.textContent = timer.timeComponent(timer.deltaTime).mins;
+    refs.secs.textContent = timer.timeComponent(timer.deltaTime).secs;
+    }
+    if(timer.deltaTime === 0){console.log("Finish!");
+    clearInterval(interval);
+}
+    
+}, 1000);
 
-/*
- * Оставшиеся минуты: получаем оставшиеся минуты и делим их на количество
- * миллисекунд в одной минуте (1000 * 60 = миллисекунды * секунды)
- */
-const mins = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
-
-/*
- * Оставшиеся секунды: получаем оставшиеся секунды и делим их на количество
- * миллисекунд в одной секунде (1000)
- */
-const secs = Math.floor((time % (1000 * 60)) / 1000);
