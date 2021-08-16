@@ -27,9 +27,13 @@ startB.addEventListener('click',
     if (isRun) {return}
     timerColorId = setInterval(changeColor, 1000, colors, randomIntegerFromInterval);
     isRun = true;
+
+    startB.disabled = true;
 });
 
 stopB.addEventListener('click', () => {
     clearInterval(timerColorId);
     isRun = false;
+
+    startB.disabled = false;
 })
